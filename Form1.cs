@@ -19,63 +19,97 @@ namespace Zmijica
 
         int snakeBodySize=30;
         int gridWidth, gridHeight, gridX, gridY;
+        int direction = 4; /// {1 2 3 4}={up, down, left, right}
 
-        private void SnakeGraphics_Paint(object sender, PaintEventArgs e)
-        {
-            //g.FillRectangle(snakeBodyBrush, new Rectangle(0, 0, 30, 30));
-            //g.DrawRectangle(snakeBodyBorderPen, new Rectangle(gridX-1,gridY-1,gridWidth+1,gridHeight+1));
-            g.DrawRectangle(snakeBodyBorderPen, new Rectangle(0,0,gridWidth-1,gridHeight-1));
+        Keys[] filteredKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right };
+        Timer timer = new Timer();
 
-        }
+        int labelcnt = 0;
+        bool playing = false;
 
         public SnakeGraphics()
         {
             InitializeComponent();
+
+            this.ActiveControl = gameGrid;
             f = this.CreateGraphics();
             g = gameGrid.CreateGraphics();
+            
 
             gridX = gameGrid.Location.X;
             gridY = gameGrid.Location.Y;
             gridWidth = gameGrid.Width;
             gridHeight = gameGrid.Height;
-
-            //string msg = String.Format("{0} {1} {2} {3}", gridX - 1, gridY - 1, gridWidth + 1, gridHeight + 1);
-            //MessageBox.Show(msg);
-
-            //g = gameGrid.CreateGraphics();
-
-            
         }
 
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            launchTimer();
+            playing = true;
+            btnStart.Enabled = false;
+        }
+        void launchTimer()
+        {
+            timer.Interval=300;
+            timer.Tick += Play;
+            timer.Start();
+        }
+        private void Play(object sender, EventArgs e)
+        {
+            makeMove();
+        }
+        void makeMove()
+        {
+            labelcnt++;
+            label1.Text = labelcnt.ToString();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (!playing) return base.ProcessCmdKey(ref msg, keyData);
+            bool ret = filteredKeys.Contains(keyData);
+            if(ret)
+            {
+                timer.Stop();
+                if (keyData==Keys.Down && direction!=1)
+                {
+                    direction = 2;
+                }
+                if (keyData == Keys.Up && direction != 2)
+                {
+                    direction = 1;
+                }
+                if (keyData == Keys.Left && direction != 4)
+                {
+                    direction = 3;
+                }
+                if (keyData == Keys.Right && direction != 3)
+                {
+                    direction = 4;
+                }
+                makeMove();
+                timer.Start();
+            }
+            return ret;
+        }
+
+        private void SnakeGraphics_Paint(object sender, PaintEventArgs e)
+        {
+            g.DrawRectangle(snakeBodyBorderPen, new Rectangle(0,0,gridWidth-1,gridHeight-1));
+            //this.ActiveControl = gameGrid;
+
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Rectangle rec = new Rectangle(0, 0, 50, 50);
-            //g.FillRectangle(snakeBodyBrush, new Rectangle(0, 0, 300, 300));
-            //g.DrawRectangle(snakeBodyBorderPen,new Rectangle(0,0,300,300));
-            //snakeBodyBrush.Dispose(); g.Dispose();
-
-            for(int y=0; y<=gridHeight-snakeBodySize; y+=snakeBodySize)
+            for (int y = 0; y <= gridHeight - snakeBodySize; y += snakeBodySize)
             {
-                for(int x=0; x<=gridWidth-snakeBodySize; x+=snakeBodySize)
+                for (int x = 0; x <= gridWidth - snakeBodySize; x += snakeBodySize)
                 {
                     g.FillRectangle(snakeBodyBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
                     g.DrawRectangle(snakeBodyBorderPen, new Rectangle(x, y, snakeBodySize, snakeBodySize));
                 }
             }
-
-            /*for (int y = 0; y <= gridHeight - snakeBodySize; y += snakeBodySize)
-            {
-                for (int x = 0; x <= gridWidth - snakeBodySize; x += snakeBodySize)
-                {
-                    Label p = new Label();
-                    p.Location = new Point(x, y);
-                    p.Size = new Size(snakeBodySize, snakeBodySize);
-                    p.BackColor = Color.Red;
-                    p.Enabled=false;
-                    gameGrid.Controls.Add(p);
-                }
-            }*/
         }
 
         private void button2_Click(object sender, EventArgs e)

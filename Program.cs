@@ -18,6 +18,7 @@ namespace Zmijica
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SnakeGraphics());
+            //Application.Run(new probnaForma());
         }
     }
 }
