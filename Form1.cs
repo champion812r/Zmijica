@@ -23,13 +23,18 @@ namespace Zmijica
 
         Keys[] filteredKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right };
         Timer timer = new Timer();
+        int interval;
 
         int labelcnt = 0;
         bool playing = false;
 
+        int speedMin = 500, speedMax = 100;
+
         public SnakeGraphics()
         {
             InitializeComponent();
+            trackSpeed.Minimum = 1;
+            trackSpeed.Maximum = 4;
 
             this.ActiveControl = gameGrid;
             f = this.CreateGraphics();
@@ -44,13 +49,17 @@ namespace Zmijica
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            interval = speedMin - trackSpeed.Value*speedMax;
             launchTimer();
             playing = true;
+
             btnStart.Enabled = false;
+            trackSpeed.Enabled = false;
+            tbIme.Enabled = false;
         }
         void launchTimer()
         {
-            timer.Interval=300;
+            timer.Interval=interval;
             timer.Tick += Play;
             timer.Start();
         }
