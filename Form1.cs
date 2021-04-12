@@ -62,6 +62,10 @@ namespace Zmijica
         {
             labelcnt++;
             label1.Text = labelcnt.ToString();
+
+            ///saljem direction kristini
+            ///vraca mi listu izmena
+            ///primenjujem izmene na gameGrid-u
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -70,25 +74,33 @@ namespace Zmijica
             bool ret = filteredKeys.Contains(keyData);
             if(ret)
             {
-                timer.Stop();
-                if (keyData==Keys.Down && direction!=1)
+                bool directionChanged = false;
+                if (keyData==Keys.Down && direction!=1 && direction!=2)
                 {
                     direction = 2;
+                    directionChanged = true;
                 }
-                if (keyData == Keys.Up && direction != 2)
+                if (keyData == Keys.Up && direction != 2 && direction != 1)
                 {
                     direction = 1;
+                    directionChanged = true;
                 }
-                if (keyData == Keys.Left && direction != 4)
+                if (keyData == Keys.Left && direction != 4 && direction != 3)
                 {
                     direction = 3;
+                    directionChanged = true;
                 }
-                if (keyData == Keys.Right && direction != 3)
+                if (keyData == Keys.Right && direction != 3 && direction != 4)
                 {
                     direction = 4;
+                    directionChanged = true;
                 }
-                makeMove();
-                timer.Start();
+                if(directionChanged) 
+                {
+                    timer.Stop();
+                    makeMove();
+                    timer.Start();
+                }
             }
             return ret;
         }
@@ -96,8 +108,6 @@ namespace Zmijica
         private void SnakeGraphics_Paint(object sender, PaintEventArgs e)
         {
             g.DrawRectangle(snakeBodyBorderPen, new Rectangle(0,0,gridWidth-1,gridHeight-1));
-            //this.ActiveControl = gameGrid;
-
         }
 
         private void button1_Click(object sender, EventArgs e)
