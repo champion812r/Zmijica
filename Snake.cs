@@ -109,12 +109,12 @@ namespace Zmijica
             }
         }
 
-        public struct Instrukcija
+        /*public struct Instrukcija
         {
             public Point xy;
             public bool oboj;  // true = oboj, false = obrisi
             public bool telo;  // true = zmija, false = hrana
-        }
+        }*/
 
 
     }
