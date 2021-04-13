@@ -17,11 +17,14 @@ namespace Zmijica
         Pen snakeBodyBorderPen = new Pen(Color.Black);
         Graphics g,f;
 
-        int snakeBodySize=30;
+        Options options=new Options();
+
+        int snakeBodySize=20;
         int gridWidth, gridHeight, gridX, gridY;
         int direction = 4; /// {1 2 3 4}={up, down, left, right}
+        int glavaX = 6, glavaY = 6;
 
-        Keys[] filteredKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right };
+        Keys[] filteredKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right};
         Timer timer;
         int interval;
 
@@ -32,10 +35,10 @@ namespace Zmijica
 
         public SnakeGraphics()
         {
-
-            Snake novaZmija = new Snake(gridHeight/snakeBodySize,gridWidth/snakeBodySize);
-
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            options.StartPosition = this.StartPosition;
+
             trackSpeed.Minimum = 1;
             trackSpeed.Maximum = 4;
 
@@ -48,6 +51,12 @@ namespace Zmijica
             gridY = gameGrid.Location.Y;
             gridWidth = gameGrid.Width;
             gridHeight = gameGrid.Height;
+            
+            Snake novaZmija = new Snake(gridHeight/snakeBodySize,gridWidth/snakeBodySize, glavaX, glavaY);
+
+            this.Show();
+            options.Show();
+            //this.Enabled = false;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -90,16 +99,33 @@ namespace Zmijica
 
 
             ///saljem direction kristini
-            ///List<> = novaZmija.Move(direction);
+            ///List<> = novaZmija.Move(direction); :(X,Y, oboji/obrisi , telo/hrana)
             ///vraca mi listu izmena
             ///primenjujem izmene na gameGrid-u
             ///
             ///
             ///kada se zavrsi gejm, saljem joj ime igraca da ga upise u bazu, a ona racuna score
         }
+        void Erase(int X, int Y)
+        {
+
+        }
+        void DrawHead(int X, int Y)
+        {
+
+        }
+        void DrawFood(int X, int Y)
+        {
+
+        }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if(keyData==Keys.P)
+            {
+                MessageBox.Show("vdsv");
+                options.Show();
+            }
             if (!playing) return base.ProcessCmdKey(ref msg, keyData);
             bool ret = filteredKeys.Contains(keyData);
             if(ret)

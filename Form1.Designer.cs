@@ -43,14 +43,15 @@ namespace Zmijica
             // 
             // gameGrid
             // 
+            this.gameGrid.BackColor = System.Drawing.Color.White;
             this.gameGrid.Location = new System.Drawing.Point(12, 12);
             this.gameGrid.Name = "gameGrid";
-            this.gameGrid.Size = new System.Drawing.Size(631, 421);
+            this.gameGrid.Size = new System.Drawing.Size(841, 521);
             this.gameGrid.TabIndex = 0;
             // 
             // btnFullGrid
             // 
-            this.btnFullGrid.Location = new System.Drawing.Point(649, 344);
+            this.btnFullGrid.Location = new System.Drawing.Point(875, 340);
             this.btnFullGrid.Name = "btnFullGrid";
             this.btnFullGrid.Size = new System.Drawing.Size(136, 29);
             this.btnFullGrid.TabIndex = 1;
@@ -60,7 +61,7 @@ namespace Zmijica
             // 
             // btnClearGrid
             // 
-            this.btnClearGrid.Location = new System.Drawing.Point(649, 379);
+            this.btnClearGrid.Location = new System.Drawing.Point(875, 375);
             this.btnClearGrid.Name = "btnClearGrid";
             this.btnClearGrid.Size = new System.Drawing.Size(136, 29);
             this.btnClearGrid.TabIndex = 2;
@@ -70,7 +71,7 @@ namespace Zmijica
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(649, 141);
+            this.btnStart.Location = new System.Drawing.Point(875, 137);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(136, 50);
             this.btnStart.TabIndex = 3;
@@ -81,7 +82,7 @@ namespace Zmijica
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(657, 411);
+            this.label1.Location = new System.Drawing.Point(883, 407);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(122, 20);
             this.label1.TabIndex = 4;
@@ -89,14 +90,14 @@ namespace Zmijica
             // 
             // trackSpeed
             // 
-            this.trackSpeed.Location = new System.Drawing.Point(649, 19);
+            this.trackSpeed.Location = new System.Drawing.Point(875, 15);
             this.trackSpeed.Name = "trackSpeed";
             this.trackSpeed.Size = new System.Drawing.Size(130, 56);
             this.trackSpeed.TabIndex = 5;
             // 
             // tbIme
             // 
-            this.tbIme.Location = new System.Drawing.Point(649, 70);
+            this.tbIme.Location = new System.Drawing.Point(875, 66);
             this.tbIme.Name = "tbIme";
             this.tbIme.Size = new System.Drawing.Size(136, 27);
             this.tbIme.TabIndex = 6;
@@ -104,7 +105,7 @@ namespace Zmijica
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(700, 100);
+            this.label2.Location = new System.Drawing.Point(926, 96);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 20);
             this.label2.TabIndex = 7;
@@ -112,7 +113,7 @@ namespace Zmijica
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(649, 197);
+            this.btnStop.Location = new System.Drawing.Point(875, 193);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(136, 50);
             this.btnStop.TabIndex = 8;
@@ -124,7 +125,8 @@ namespace Zmijica
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(816, 450);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.ClientSize = new System.Drawing.Size(1023, 548);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbIme);
