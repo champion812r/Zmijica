@@ -17,6 +17,8 @@ namespace Zmijica
         Pen snakeBodyBorderPen = new Pen(Color.Black);
         Graphics g,f;
 
+        Snake snake;
+
         Options options=new Options();
 
         int snakeBodySize=20;
@@ -52,10 +54,10 @@ namespace Zmijica
             gridWidth = gameGrid.Width;
             gridHeight = gameGrid.Height;
             
-            Snake novaZmija = new Snake(gridHeight/snakeBodySize,gridWidth/snakeBodySize, glavaX, glavaY);
+            snake = new Snake(gridHeight/snakeBodySize,gridWidth/snakeBodySize, glavaX, glavaY);
 
-            this.Show();
-            options.Show();
+            //this.Show();
+            //options.Show();
             //this.Enabled = false;
         }
 
@@ -96,8 +98,26 @@ namespace Zmijica
             labelcnt++;
             label1.Text = labelcnt.ToString();
 
-
-
+            List<Instrukcija> instrukckije = snake.lista(direction);
+            foreach(Instrukcija i in instrukckije)
+            {
+                int X = i.xy.X, Y = i.xy.Y;
+                int x = X * snakeBodySize, y = Y * snakeBodySize;
+                if (i.oboj)
+                {
+                    if (i.telo)
+                    {
+                        g.FillRectangle(snakeBodyBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
+                        g.DrawRectangle(snakeBodyBorderPen, new Rectangle(x, y, snakeBodySize, snakeBodySize));
+                    }
+                    else continue;
+                }
+                else
+                {
+                    gameGrid.Invalidate(new Rectangle(x,y,snakeBodySize+1,snakeBodySize+1));
+                }
+            }
+            
             ///saljem direction kristini
             ///List<> = novaZmija.Move(direction); :(X,Y, oboji/obrisi , telo/hrana)
             ///vraca mi listu izmena

@@ -7,7 +7,13 @@ using System.Drawing;
 
 namespace Zmijica
 {
-    class Snake
+    public struct Instrukcija
+    {
+        public Point xy;
+        public bool oboj;  // true = oboj, false = obrisi
+        public bool telo;  // true = zmija, false = hrana
+    }
+    public class Snake
     {
         List<Point> teloZmije = new List<Point>();
         int visinaMatrice, sirinaMatrice, x, y, velicina = 3;
@@ -103,12 +109,12 @@ namespace Zmijica
             }
         }
 
-        public struct Instrukcija
+        /*public struct Instrukcija
         {
             public Point xy;
             public bool oboj;  // true = oboj, false = obrisi
             public bool telo;  // true = zmija, false = hrana
-        }
+        }*/
 
 
     }
