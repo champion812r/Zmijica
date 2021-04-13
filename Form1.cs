@@ -22,7 +22,7 @@ namespace Zmijica
         int direction = 4; /// {1 2 3 4}={up, down, left, right}
 
         Keys[] filteredKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right };
-        Timer timer = new Timer();
+        Timer timer;
         int interval;
 
         int labelcnt = 0;
@@ -59,6 +59,7 @@ namespace Zmijica
         }
         void launchTimer()
         {
+            timer = new Timer();
             timer.Interval=interval;
             timer.Tick += Play;
             timer.Start();
@@ -67,6 +68,15 @@ namespace Zmijica
         {
             makeMove();
         }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            btnStart.Enabled = true;
+            trackSpeed.Enabled = true;
+            tbIme.Enabled = true;
+            timer.Stop();
+        }
+
         void makeMove()
         {
             labelcnt++;
@@ -75,6 +85,9 @@ namespace Zmijica
             ///saljem direction kristini
             ///vraca mi listu izmena
             ///primenjujem izmene na gameGrid-u
+            ///
+            ///
+            ///kada se zavrsi gejm, saljem joj ime igraca da ga upise u bazu, a ona racuna score
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

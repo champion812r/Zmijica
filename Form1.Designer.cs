@@ -37,6 +37,7 @@ namespace Zmijica
             this.trackSpeed = new System.Windows.Forms.TrackBar();
             this.tbIme = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnStop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,11 +110,22 @@ namespace Zmijica
             this.label2.TabIndex = 7;
             this.label2.Text = "Ime";
             // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(649, 197);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(136, 50);
+            this.btnStop.TabIndex = 8;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
             // SnakeGraphics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 450);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbIme);
             this.Controls.Add(this.trackSpeed);
@@ -141,6 +153,7 @@ namespace Zmijica
         private System.Windows.Forms.TrackBar trackSpeed;
         private System.Windows.Forms.TextBox tbIme;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 
