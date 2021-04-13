@@ -10,9 +10,24 @@ namespace Zmijica
     class Snake
     {
         List<Point> teloZmije = new List<Point>();
-        public Snake()
-        {
+        int visinaMatrice, sirinaMatrice;
 
+        public Snake(int visinaMatrice, int sirinaMatrice)
+        {
+            this.visinaMatrice = visinaMatrice;
+            this.sirinaMatrice = sirinaMatrice;
         }
+
+
+        /*private List<...> lista (int direction)
+        {
+            ///
+            List<...> Lista = new Lista<..>();
+
+            ///
+            ///
+
+            return Lista;
+        }*/
     }
 }

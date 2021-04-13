@@ -12,7 +12,7 @@ namespace Zmijica
 {
     public partial class SnakeGraphics : Form
     {
-        Snake zmija=new Snake();
+        //Snake zmija=new Snake();
         SolidBrush snakeBodyBrush = new SolidBrush(Color.Red);
         Pen snakeBodyBorderPen = new Pen(Color.Black);
         Graphics g,f;
@@ -32,6 +32,9 @@ namespace Zmijica
 
         public SnakeGraphics()
         {
+
+            Snake novaZmija = new Snake(gridHeight/snakeBodySize,gridWidth/snakeBodySize);
+
             InitializeComponent();
             trackSpeed.Minimum = 1;
             trackSpeed.Maximum = 4;
@@ -77,12 +80,17 @@ namespace Zmijica
             timer.Stop();
         }
 
+
+        
         void makeMove()
         {
             labelcnt++;
             label1.Text = labelcnt.ToString();
 
+
+
             ///saljem direction kristini
+            ///List<> = novaZmija.Move(direction);
             ///vraca mi listu izmena
             ///primenjujem izmene na gameGrid-u
             ///
