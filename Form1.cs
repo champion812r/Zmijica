@@ -85,10 +85,16 @@ namespace Zmijica
 
         private void btnStop_Click(object sender, EventArgs e)
         {
+            Stop();
+        }
+        private void Stop()
+        {
             btnStart.Enabled = true;
             trackSpeed.Enabled = true;
             tbIme.Enabled = true;
             timer.Stop();
+            playing = false;
+            this.ActiveControl = gameGrid;
         }
 
 
@@ -102,6 +108,14 @@ namespace Zmijica
             foreach(Instrukcija i in instrukckije)
             {
                 int X = i.xy.X, Y = i.xy.Y;
+                if(X==-1)
+                {
+                    //this.Hide();
+                    //timer.Stop();
+                    Stop();
+                    //MessageBox.Show("stop");
+                    return;
+                }
                 int x = X * snakeBodySize, y = Y * snakeBodySize;
                 if (i.oboj)
                 {
