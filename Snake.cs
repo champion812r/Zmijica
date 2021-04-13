@@ -16,7 +16,7 @@ namespace Zmijica
     public class Snake
     {
         List<Point> teloZmije = new List<Point>();
-        int visinaMatrice, sirinaMatrice, x, y, velicina = 3;
+        int visinaMatrice, sirinaMatrice, x, y, velicina=3;
         Point hrana = new Point { X = 5, Y = 3 }; //privremena hrana
         public Snake(int visinaMatrice, int sirinaMatrice, int x, int y)
         {
@@ -27,17 +27,17 @@ namespace Zmijica
             NapraviNovuZmiju(velicina); //nisam sigurna da l ovo treba da stoji ovde
 
         }
+        
 
-
-        public List<Instrukcija> lista(int direction)
+        public List<Instrukcija> lista (int direction)
         {
             List<Instrukcija> Lista = new List<Instrukcija>();
-            Point glava = new Point { X = teloZmije[0].X, Y = teloZmije[0].Y };
-            if (direction == 1)
+            Point glava = new Point { X = teloZmije[0].X , Y = teloZmije[0].Y };
+            if(direction==1)
             {
                 glava.Y--;
                 if (glava.Y < 0) glava.Y = visinaMatrice; //ako predje zid
-                if (glava == teloZmije[0]) glava.Y++;       //ako ide unazad
+                if (glava==teloZmije[0]) glava.Y++;       //ako ide unazad
                 ZmijaUpdate(ref teloZmije, glava, ref Lista);  //menjanje pozicija u listi, dodavanje instrukcija
             }
             else if (direction == 2)
@@ -88,7 +88,7 @@ namespace Zmijica
                     //NapraviNovuHranu(ref instrukcija);
                     //Lista.Add(instrukcija);
                 }
-                else
+                else 
                 {
                     instrukcija.xy = teloZmije[teloZmije.Count - 1];
                     instrukcija.oboj = false;
@@ -109,12 +109,12 @@ namespace Zmijica
             }
         }
 
-        /*public struct Instrukcija
+        public struct Instrukcija
         {
             public Point xy;
             public bool oboj;  // true = oboj, false = obrisi
             public bool telo;  // true = zmija, false = hrana
-        }*/
+        }
 
 
     }
