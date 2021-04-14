@@ -29,6 +29,7 @@ namespace Zmijica
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gameGrid = new System.Windows.Forms.Panel();
             this.btnFullGrid = new System.Windows.Forms.Button();
             this.btnClearGrid = new System.Windows.Forms.Button();
@@ -38,12 +39,13 @@ namespace Zmijica
             this.tbIme = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // gameGrid
             // 
-            this.gameGrid.BackColor = System.Drawing.Color.White;
+            this.gameGrid.BackColor = System.Drawing.Color.Black;
             this.gameGrid.Location = new System.Drawing.Point(12, 12);
             this.gameGrid.Name = "gameGrid";
             this.gameGrid.Size = new System.Drawing.Size(841, 521);
@@ -51,7 +53,7 @@ namespace Zmijica
             // 
             // btnFullGrid
             // 
-            this.btnFullGrid.Location = new System.Drawing.Point(875, 340);
+            this.btnFullGrid.Location = new System.Drawing.Point(875, 384);
             this.btnFullGrid.Name = "btnFullGrid";
             this.btnFullGrid.Size = new System.Drawing.Size(136, 29);
             this.btnFullGrid.TabIndex = 1;
@@ -61,7 +63,7 @@ namespace Zmijica
             // 
             // btnClearGrid
             // 
-            this.btnClearGrid.Location = new System.Drawing.Point(875, 375);
+            this.btnClearGrid.Location = new System.Drawing.Point(875, 419);
             this.btnClearGrid.Name = "btnClearGrid";
             this.btnClearGrid.Size = new System.Drawing.Size(136, 29);
             this.btnClearGrid.TabIndex = 2;
@@ -71,7 +73,7 @@ namespace Zmijica
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(875, 137);
+            this.btnStart.Location = new System.Drawing.Point(875, 181);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(136, 50);
             this.btnStart.TabIndex = 3;
@@ -82,7 +84,7 @@ namespace Zmijica
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(883, 407);
+            this.label1.Location = new System.Drawing.Point(883, 451);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(122, 20);
             this.label1.TabIndex = 4;
@@ -90,14 +92,14 @@ namespace Zmijica
             // 
             // trackSpeed
             // 
-            this.trackSpeed.Location = new System.Drawing.Point(875, 15);
+            this.trackSpeed.Location = new System.Drawing.Point(875, 59);
             this.trackSpeed.Name = "trackSpeed";
             this.trackSpeed.Size = new System.Drawing.Size(130, 56);
             this.trackSpeed.TabIndex = 5;
             // 
             // tbIme
             // 
-            this.tbIme.Location = new System.Drawing.Point(875, 66);
+            this.tbIme.Location = new System.Drawing.Point(875, 110);
             this.tbIme.Name = "tbIme";
             this.tbIme.Size = new System.Drawing.Size(136, 27);
             this.tbIme.TabIndex = 6;
@@ -105,7 +107,7 @@ namespace Zmijica
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(926, 96);
+            this.label2.Location = new System.Drawing.Point(926, 140);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 20);
             this.label2.TabIndex = 7;
@@ -113,13 +115,19 @@ namespace Zmijica
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(875, 193);
+            this.btnStop.Location = new System.Drawing.Point(875, 237);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(136, 50);
             this.btnStop.TabIndex = 8;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // SnakeGraphics
             // 
@@ -156,6 +164,7 @@ namespace Zmijica
         private System.Windows.Forms.TextBox tbIme;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 

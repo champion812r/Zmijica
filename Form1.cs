@@ -12,7 +12,7 @@ namespace Zmijica
 {
     public partial class SnakeGraphics : Form
     {
-        SolidBrush snakeBodyBrush = new SolidBrush(Color.Red);
+        SolidBrush snakeBodyBrush = new SolidBrush(Color.Green);
         Pen snakeBodyBorderPen = new Pen(Color.Black);
         Graphics g,f;
 
@@ -149,7 +149,7 @@ namespace Zmijica
         void DrawHead(int x, int y)
         {
             g.FillRectangle(snakeBodyBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
-            g.DrawRectangle(snakeBodyBorderPen, new Rectangle(x, y, snakeBodySize - 1, snakeBodySize - 1));
+            //g.DrawRectangle(snakeBodyBorderPen, new Rectangle(x, y, snakeBodySize - 1, snakeBodySize - 1));
         }
         void DrawFood(int x, int y)
         {
