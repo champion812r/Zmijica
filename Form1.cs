@@ -13,6 +13,7 @@ namespace Zmijica
     public partial class SnakeGraphics : Form
     {
         SolidBrush snakeBodyBrush = new SolidBrush(Color.Green);
+        SolidBrush foodBrush = new SolidBrush(Color.Red);
         Pen snakeBodyBorderPen = new Pen(Color.Black);
         Graphics g,f;
 
@@ -114,9 +115,10 @@ namespace Zmijica
         bool makeMove()
         {
             labelcnt++;
-            label1.Text = labelcnt.ToString();
+            //label1.Text = labelcnt.ToString();
 
             List<Instrukcija> instrukckije = snake.lista(direction);
+            label1.Text = instrukckije.Count().ToString();
             foreach(Instrukcija i in instrukckije)
             {
                 int X = i.xy.X, Y = i.xy.Y;
@@ -132,7 +134,11 @@ namespace Zmijica
                     {
                         DrawHead(x, y);
                     }
-                    else continue;
+                    else
+                    {
+                        DrawFood(x, y);
+                    }
+                    //DrawHead(x, y);
                 }
                 else
                 {
@@ -153,7 +159,7 @@ namespace Zmijica
         }
         void DrawFood(int x, int y)
         {
-
+            g.FillRectangle(foodBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
