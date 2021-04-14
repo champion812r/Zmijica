@@ -16,8 +16,9 @@ namespace Zmijica
     public class Snake
     {
         List<Point> teloZmije = new List<Point>();  //lista koordinata delova tela zmijice
-        int visinaMatrice, sirinaMatrice, x, y, velicina=3;
-        Point hrana = new Point(); 
+        int visinaMatrice, sirinaMatrice, x, y, velicina=3, foodmax=3;
+        List<Point> hrana = new List<Point>();
+        bool pokupljeno;
 
         public Snake(int visinaMatrice, int sirinaMatrice, int x, int y) //pocetna podesavanje 
         {   
@@ -30,17 +31,16 @@ namespace Zmijica
             this.y = y; 
             
             //pravljenje zmije i hrane
-            NapraviNovuZmiju(velicina); 
-            NapraviNovuHranu(hrana);
+            NapraviNovuZmiju(velicina);
         }
         
 
         public List<Instrukcija> lista (int direction)  //vraca listi instrukcija u zavisnosti od smera kretanja zmijice
         {
-            List<Instrukcija> Lista = new List<Instrukcija>(); 
-            Point glava = new Point { X = teloZmije[0].X , Y = teloZmije[0].Y }; //trenutna lokacija glave zmijice
-
-            if(direction==1) //ako ide gore
+            List<Instrukcija> Lista = new List<Instrukcija>();
+            Point glava = new Point { X = teloZmije[0].X, Y = teloZmije[0].Y }; //trenutna lokacija glave zmijice
+    
+            if (direction==1) //ako ide gore
             {
                 glava.Y--;
                 if (glava.Y < 0) glava.Y = visinaMatrice; //ako predje zid
@@ -91,32 +91,51 @@ namespace Zmijica
                 instrukcija.telo = true;
                 Lista.Add(instrukcija);
 
-                if (glava == hrana) //ako pokupi hranu
-                {   
-                    //pravi se nova hrana
-                    NapraviNovuHranu(hrana);
-                    instrukcija.xy = hrana;
-                    instrukcija.oboj = true;
-                    instrukcija.telo = false;
-                    Lista.Add(instrukcija);
+                for (int i = 0; i < hrana.Count; i++) //provera da li glava ima isti lokaciju kao neki clan iz liste hrana
+                {
+                    if (hrana[i] == glava) //ako postoji takav clan
+                    {
+                        pokupljeno = true;
+                        hrana.RemoveAt(i); //uklanja se iz liste
+                        break;
+                    }
+                    else pokupljeno = false; //ako ne postoji
                 }
-                else 
+
+                if (!pokupljeno || hrana.Count==0) //rep se brise kada se ne pokupi hrana, ili ako nema hrane, a bool je ostao true
                 {
                     //brisanje repa 
                     instrukcija.xy = teloZmije[teloZmije.Count - 1];
                     instrukcija.oboj = false;
                     instrukcija.telo = true;
                     Lista.Add(instrukcija);
-                    teloZmije.RemoveAt(teloZmije.Count - 1);
+                    teloZmije.RemoveAt(teloZmije.Count - 1);    
                 }
+                
+                //nasumicno generisanje hrane po frame-u
+                Random r = new Random();
+                if (r.Next(0, 10) == 1)
+                    NapraviNovuHranu(ref hrana, r.Next(1, foodmax + 1), teloZmije, ref Lista);
             }
         }
 
-        private void NapraviNovuHranu(Point hrana)
+        private void NapraviNovuHranu(ref List<Point> hrana, int foodmax, List<Point> zmija, ref List<Instrukcija> Lista)
         {
-            //hrana se pojavljuje na nasumicnim pozicijama
             Random r = new Random();
-            hrana = new Point { X = r.Next(0, sirinaMatrice+1), Y = r.Next(0, visinaMatrice + 1) }; 
+            Point food = new Point { X = r.Next(0, sirinaMatrice + 1), Y = r.Next(0, visinaMatrice + 1) }; 
+            Instrukcija instrukcija = new Instrukcija();
+            for (int i = hrana.Count; i < foodmax; i++)
+            {   
+                while(hrana.Contains(food) || zmija.Contains(food)) //trazi se random lokacija na kojoj nema ni zmije ni hrane
+                food = new Point { X = r.Next(0, sirinaMatrice + 1), Y = r.Next(0, visinaMatrice + 1) };
+                hrana.Add(food); //kada se nadje doda se u listu
+
+                //dodavanje instrukcije u listu
+                instrukcija.xy = hrana[i];
+                instrukcija.oboj = true;
+                instrukcija.telo = false;
+                Lista.Add(instrukcija);
+            }
         }
 
         private void NapraviNovuZmiju(int velicina)
