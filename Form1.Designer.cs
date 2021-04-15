@@ -29,7 +29,6 @@ namespace Zmijica
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.gameGrid = new System.Windows.Forms.Panel();
             this.btnFullGrid = new System.Windows.Forms.Button();
             this.btnClearGrid = new System.Windows.Forms.Button();
@@ -39,17 +38,19 @@ namespace Zmijica
             this.tbIme = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this.labelScore = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // gameGrid
             // 
-            this.gameGrid.BackColor = System.Drawing.Color.Black;
+            this.gameGrid.BackColor = System.Drawing.SystemColors.Control;
             this.gameGrid.Location = new System.Drawing.Point(12, 12);
             this.gameGrid.Name = "gameGrid";
             this.gameGrid.Size = new System.Drawing.Size(841, 521);
             this.gameGrid.TabIndex = 0;
+            this.gameGrid.Paint += new System.Windows.Forms.PaintEventHandler(this.gameGrid_Paint);
             // 
             // btnFullGrid
             // 
@@ -123,11 +124,23 @@ namespace Zmijica
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // imageList1
+            // label3
             // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(875, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(49, 20);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Score:";
+            // 
+            // labelScore
+            // 
+            this.labelScore.AutoSize = true;
+            this.labelScore.Location = new System.Drawing.Point(930, 21);
+            this.labelScore.Name = "labelScore";
+            this.labelScore.Size = new System.Drawing.Size(17, 20);
+            this.labelScore.TabIndex = 0;
+            this.labelScore.Text = "0";
             // 
             // SnakeGraphics
             // 
@@ -135,6 +148,8 @@ namespace Zmijica
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(1023, 548);
+            this.Controls.Add(this.labelScore);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbIme);
@@ -164,7 +179,8 @@ namespace Zmijica
         private System.Windows.Forms.TextBox tbIme;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelScore;
     }
 }
 

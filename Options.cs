@@ -12,36 +12,24 @@ namespace Zmijica
 {
     public partial class Options : Form
     {
-        NewGame newgame = new NewGame();
+        public NewGameControl ngc;
+        public optionsControl oc = new optionsControl();
+        public int currentState = 0; // 0-options 1-newgame
         public bool playing = false;
         public Options()
         {
             InitializeComponent();
+            //ngc = new NewGameControl(ref this);
             this.StartPosition = FormStartPosition.CenterParent;
-            newgame.StartPosition = this.StartPosition;
-        }
 
-        private void btnResume_Click(object sender, EventArgs e)
+            panel1.Controls.Add(ngc);
+        }
+        
+        public void Fun()
         {
-
+            MessageBox.Show("ddfdsf");
         }
 
-        private void btnNewGame_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            newgame.ShowDialog();
-            this.Show();
-            if(newgame.playable)
-            {
-                this.Hide();
-                
-            }
-        }
-
-        private void Options_Shown(object sender, EventArgs e)
-        {
-            
-            //if(newgame.playable) 
-        }
+        
     }
 }

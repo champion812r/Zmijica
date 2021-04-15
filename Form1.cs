@@ -12,34 +12,44 @@ namespace Zmijica
 {
     public partial class SnakeGraphics : Form
     {
-        SolidBrush snakeBodyBrush = new SolidBrush(Color.Green);
+        /// <summary>
+        /// 
+        /// definisanje boja za: telo zmije, hranu i dve vrste polja GameGrid-a
+        /// 
+        /// </summary>
+        SolidBrush snakeBodyBrush = new SolidBrush(Color.FromArgb(46,138,211));
         SolidBrush foodBrush = new SolidBrush(Color.Red);
+        SolidBrush gridCellOne = new SolidBrush(Color.FromArgb(134,117,169));
+        SolidBrush gridCellTwo = new SolidBrush(Color.FromArgb(195, 174, 214));
         Pen snakeBodyBorderPen = new Pen(Color.Black);
         Graphics g,f;
 
-        Snake snake;
+        Snake snake; 
 
         Options options=new Options();
 
-        int snakeBodySize=20;
-        int gridWidth, gridHeight, gridX, gridY;
-        int direction = 4; /// {1 2 3 4}={up, down, left, right}
-        int glavaX = 6, glavaY = 6;
+        int snakeBodySize=20; // dimenzija tela zmije
+        int gridWidth, gridHeight, gridX, gridY; // dimenzija i pozicija GameGrid-a
+        int direction = 4; /// smer kretanja zmije: {1 2 3 4}={gore, dole, levo, desno}
+        int glavaX = 6, glavaY = 6; // startna pozicija zmije
 
-        Keys[] filteredKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right};
-        Timer timer= new Timer();
-        int interval;
+        Keys[] controlKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right}; // dugmici koji se koriste za upravljanje zmijom
+        Timer timer= new Timer(); // tajmer koji ce otkucavati za prikaz novih frejmova
+        int interval; // interval nakon kojeg ce tajmer otkucavati - brzina kretanja zmije
 
         int labelcnt = 0;
-        bool playing = false;
+        bool playing = false; // oznacava da li je u toku igra
 
-        int speedMin = 500, speedMax = 100;
+        int speedMin = 500, speedMax = 100; // minimalna i maximalna vrednost intervala, izrazeno u milisekundama
 
         public SnakeGraphics()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
-            //options.StartPosition = this.StartPosition;
+            this.StartPosition = FormStartPosition.CenterScreen; // pozicioniranje forme na centar ekrana
+            options.StartPosition = this.StartPosition;
+            //options.currentState = 0;
+            options.ShowDialog();
+            
 
             trackSpeed.Minimum = 1;
             trackSpeed.Maximum = 4;
@@ -59,15 +69,39 @@ namespace Zmijica
             //this.Show();
             //options.Show();
             //this.Enabled = false;
+
+            //SetGridBackground();
+        }
+
+        void SetGridBackground()
+        {
+            /// <summary>
+            /// 
+            /// Prikazivanje pozadine na GameGrid-u. 
+            /// x i y predstavljaju piksele u GameGrid-u
+            /// 
+            /// </summary>
+            for (int y = 0; y <= gridHeight - snakeBodySize; y += snakeBodySize)
+            {
+                for (int x = 0; x <= gridWidth - snakeBodySize; x += snakeBodySize)
+                {
+                    FillGridCell(x, y); // popunjavanje pravougaonog polja ciji se gornji levi ugao nalazi na poziciji (x,y) 
+                }
+            }
         }
 
         private void btnStart_Click(object sender, EventArgs e)
-        {
-            resetSnake();
-            interval = speedMin - trackSpeed.Value*speedMax;
-            launchTimer();
+        {            
+            resetSnake(); // postavljamo zmiju na pocetne vrednosti
+            interval = speedMin - trackSpeed.Value*speedMax; // racunamo interval na osnovu odabrane vrednosti na trackSpeed-u
+            launchTimer(); // pokrecemo tajmer kako bi igrica zapocela
             playing = true;
 
+            /// <summary>
+            /// 
+            /// Onemogucujemo button Start, birac brzine i polje za ime kada otpocne igra
+            /// 
+            /// </summary>
             btnStart.Enabled = false;
             trackSpeed.Enabled = false;
             tbIme.Enabled = false;
@@ -75,8 +109,8 @@ namespace Zmijica
         void launchTimer()
         {
             timer = new Timer();
-            timer.Interval=interval;
-            timer.Tick += Play;
+            timer.Interval=interval; 
+            timer.Tick += Play; // govorimo tajmeru koju funkciju treba da izvrsi pri svakom otkucaju
             timer.Start();
         }
         private void Play(object sender, EventArgs e)
@@ -109,12 +143,13 @@ namespace Zmijica
         void GameLost()
         {
             Stop();
-            MessageBox.Show("Game lost!");
+            MessageBox.Show("Game Over :( ");
             ClearGrid();
         }
         bool makeMove()
         {
             labelcnt++;
+            //labelScore.Text = CNT.ToString();
             //label1.Text = labelcnt.ToString();
 
             List<Instrukcija> instrukckije = snake.lista(direction);
@@ -148,18 +183,36 @@ namespace Zmijica
             return true;
         }
 
+        void FillGridCell(int x, int y)
+        {
+            int i = x / snakeBodySize, j = y / snakeBodySize;
+            if ((i + j) % 2 == 0)
+            {
+                g.FillRectangle(gridCellOne, new Rectangle(x, y, snakeBodySize, snakeBodySize));
+            }
+            else g.FillRectangle(gridCellTwo, new Rectangle(x, y, snakeBodySize, snakeBodySize));
+        }
         void Erase(int x, int y)
         {
-            gameGrid.Invalidate(new Rectangle(x, y, snakeBodySize, snakeBodySize));
+            //gameGrid.Invalidate(new Rectangle(x, y, snakeBodySize, snakeBodySize));
+            FillGridCell(x, y);
         }
         void DrawHead(int x, int y)
         {
             g.FillRectangle(snakeBodyBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
             //g.DrawRectangle(snakeBodyBorderPen, new Rectangle(x, y, snakeBodySize - 1, snakeBodySize - 1));
         }
+
+        private void gameGrid_Paint(object sender, PaintEventArgs e)
+        {
+            //CNT++;
+            /*if(CNT==1)*/ SetGridBackground();
+        }
+
         void DrawFood(int x, int y)
         {
-            g.FillRectangle(foodBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
+            //g.FillRectangle(foodBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
+            g.FillEllipse(foodBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -170,7 +223,7 @@ namespace Zmijica
                 options.Show();
             }
             if (!playing) return base.ProcessCmdKey(ref msg, keyData);
-            bool ret = filteredKeys.Contains(keyData);
+            bool ret = controlKeys.Contains(keyData);
             if(ret)
             {
                 bool directionChanged = false;
