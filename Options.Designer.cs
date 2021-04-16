@@ -121,7 +121,7 @@ namespace Zmijica
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 228);
+            this.ClientSize = new System.Drawing.Size(437, 246);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnResults);
             this.Controls.Add(this.label2);
@@ -132,7 +132,7 @@ namespace Zmijica
             this.Controls.Add(this.btnNewGame);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Options";
-            this.Text = "Options";
+            this.Text = "press \'P\' for pause";
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
