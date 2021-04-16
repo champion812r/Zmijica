@@ -10,12 +10,16 @@ using System.Windows.Forms;
 
 namespace Zmijica
 {
-    public partial class NewGameControl : UserControl
+    public partial class Records : Form
     {
-        public NewGameControl(ref Options o)
+        public Records()
         {
             InitializeComponent();
-            o.Fun();
+            this.StartPosition = FormStartPosition.CenterParent;
         }
+        /*public void PutResultsIntoDGV(List<...> lista)
+        {
+            dgvResults.DataSource = lista.ToList();
+        }*/
     }
 }

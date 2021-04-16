@@ -40,13 +40,14 @@ namespace Zmijica
             this.btnStop = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.labelScore = new System.Windows.Forms.Label();
+            this.btnRecords = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // gameGrid
             // 
             this.gameGrid.BackColor = System.Drawing.SystemColors.Control;
-            this.gameGrid.Location = new System.Drawing.Point(12, 12);
+            this.gameGrid.Location = new System.Drawing.Point(0, 0);
             this.gameGrid.Name = "gameGrid";
             this.gameGrid.Size = new System.Drawing.Size(841, 521);
             this.gameGrid.TabIndex = 0;
@@ -54,7 +55,7 @@ namespace Zmijica
             // 
             // btnFullGrid
             // 
-            this.btnFullGrid.Location = new System.Drawing.Point(875, 384);
+            this.btnFullGrid.Location = new System.Drawing.Point(875, 352);
             this.btnFullGrid.Name = "btnFullGrid";
             this.btnFullGrid.Size = new System.Drawing.Size(136, 29);
             this.btnFullGrid.TabIndex = 1;
@@ -64,7 +65,7 @@ namespace Zmijica
             // 
             // btnClearGrid
             // 
-            this.btnClearGrid.Location = new System.Drawing.Point(875, 419);
+            this.btnClearGrid.Location = new System.Drawing.Point(875, 387);
             this.btnClearGrid.Name = "btnClearGrid";
             this.btnClearGrid.Size = new System.Drawing.Size(136, 29);
             this.btnClearGrid.TabIndex = 2;
@@ -85,7 +86,7 @@ namespace Zmijica
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(883, 451);
+            this.label1.Location = new System.Drawing.Point(883, 419);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(122, 20);
             this.label1.TabIndex = 4;
@@ -142,12 +143,23 @@ namespace Zmijica
             this.labelScore.TabIndex = 0;
             this.labelScore.Text = "0";
             // 
+            // btnRecords
+            // 
+            this.btnRecords.Location = new System.Drawing.Point(894, 473);
+            this.btnRecords.Name = "btnRecords";
+            this.btnRecords.Size = new System.Drawing.Size(94, 29);
+            this.btnRecords.TabIndex = 10;
+            this.btnRecords.Text = "Rezultati";
+            this.btnRecords.UseVisualStyleBackColor = true;
+            this.btnRecords.Click += new System.EventHandler(this.btnRecords_Click);
+            // 
             // SnakeGraphics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.ClientSize = new System.Drawing.Size(1023, 548);
+            this.ClientSize = new System.Drawing.Size(840, 520);
+            this.Controls.Add(this.btnRecords);
             this.Controls.Add(this.labelScore);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnStop);
@@ -159,6 +171,8 @@ namespace Zmijica
             this.Controls.Add(this.btnClearGrid);
             this.Controls.Add(this.btnFullGrid);
             this.Controls.Add(this.gameGrid);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "SnakeGraphics";
             this.Text = "Snake Game";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SnakeGraphics_Paint);
@@ -181,6 +195,7 @@ namespace Zmijica
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelScore;
+        private System.Windows.Forms.Button btnRecords;
     }
 }
 

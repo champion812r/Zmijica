@@ -12,24 +12,78 @@ namespace Zmijica
 {
     public partial class Options : Form
     {
-        public NewGameControl ngc;
-        public optionsControl oc = new optionsControl();
-        public int currentState = 0; // 0-options 1-newgame
-        public bool playing = false;
-        public Options()
+        bool playing;
+        public Options(bool playing)
         {
             InitializeComponent();
-            //ngc = new NewGameControl(ref this);
             this.StartPosition = FormStartPosition.CenterParent;
 
-            panel1.Controls.Add(ngc);
+            this.playing = playing;
+            if(playing)
+            {
+                btnNewGame.Enabled = false;
+                tbName.Enabled = false;
+                trackSpeed.Enabled = false;
+            }
+            else
+            {
+                btnResume.Enabled = false;
+            }
         }
-        
-        public void Fun()
+        public GameSettings getSettings()
         {
-            MessageBox.Show("ddfdsf");
+            GameSettings gs = new GameSettings();
+            gs.name = tbName.Text;
+            gs.speed = trackSpeed.Value;
+            return gs;
         }
 
-        
+
+        private void btnResume_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private bool ValidName(string name)
+        {
+            for(int i=0; i<name.Length; ++i)
+            {
+                if (name[i] != ' ') return true;
+            }
+            return false;
+        }
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            if(!ValidName(tbName.Text))
+            {
+                MessageBox.Show("Name is not valid!");
+                return;
+            }
+            this.Hide();
+        }
+
+        private void btnResults_Click(object sender, EventArgs e)
+        {
+            Records r = new Records();
+            this.Visible = false ;
+            r.ShowDialog();
+            this.Visible=true;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            string message="";
+            if(playing) message= "Score won't be saved!"; 
+            message += "Do you really want to exit the game?";
+            string title = "Exit Game";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Warning);
+            //MessageBox.Show()
+            if(result==DialogResult.No)
+            {
+                return;
+            }
+            Application.Exit();
+        }
     }
 }
