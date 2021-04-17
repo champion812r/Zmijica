@@ -12,27 +12,40 @@ namespace Zmijica
 {
     public partial class Options : Form
     {
-        bool playing;
-        public string name;
-        public Options(bool playing)
+        bool playing; /// indikator da li je prozor options otvoren u toku igre ili ne
+        public string name; /// ime igraca
+        public Options(bool playing) 
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterParent;
+            this.StartPosition = FormStartPosition.CenterParent; ///pozicioniramo Options prozor centralno u odnosu na osnovnu formu
 
             this.playing = playing;
             if(playing)
             {
+                ///
+                /// Ukoliko se igra, odnosno Options prozor je otvoren preko dugmeta 'P',
+                /// u toku je pauza i treba onemoguciti button za novu igru, polje za ime i birac brzine
+                ///
+
                 btnNewGame.Enabled = false;
                 tbName.Enabled = false;
                 trackSpeed.Enabled = false;
             }
             else
             {
+                ///
+                /// Ukoliko se ne igra, odnosno Options prozor je otvoren pred pocetak igre,
+                /// treba onemoguciti samo button Resume jer igra jos uvek nije zapoceta.
+                ///
                 btnResume.Enabled = false;
             }
         }
         public GameSettings getSettings()
         {
+            ///
+            /// Funkcija koja pokuplja korisnicki odabrane vrednosti
+            ///
+
             GameSettings gs = new GameSettings();
             gs.name = tbName.Text;
             gs.speed = trackSpeed.Value;
@@ -42,60 +55,96 @@ namespace Zmijica
 
         private void btnResume_Click(object sender, EventArgs e)
         {
+            ///
+            /// Igra se nastavlja jednostavnim sakrivanjem prozora Options.
+            ///
             this.Hide();
         }
 
         private bool ValidName(string name)
         {
-            for(int i=0; i<name.Length; ++i)
+            ///
+            /// Funkcija koja proverava da li je uneseno ime validno,
+            /// odnosno da li sadrzi ista osim razmaka
+            ///
+            for (int i=0; i<name.Length; ++i)
             {
-                if (name[i] != ' ') return true;
+                if (name[i] != ' ') return true; ///ukoliko ime sadrzi nesto sto nije razmak, ime je validno
             }
             return false;
         }
         private void btnNewGame_Click(object sender, EventArgs e)
         {
-            if(!ValidName(tbName.Text))
+            ///
+            /// Button pomocu kojeg se zapocinje nova igra
+            ///
+            if (!ValidName(tbName.Text))
             {
+                ///
+                /// Ukoliko ime nije validno, igrac ce biti obavesten i nista se nece dogoditi
+                ///
                 MessageBox.Show("Name is not valid!");
                 return;
             }
+
+            ///
+            /// Ukoliko je ima validno, sacuvacemo ga u stringu name
+            /// i zatvoriti Options formu cime ce otpoceti igra
+            ///
             name = tbName.Text;
             this.Hide();
         }
 
         private void btnResults_Click(object sender, EventArgs e)
         {
-            Records r = new Records();
-            this.Hide();
+            ///
+            /// Button koji otvara formu Records u kojoj su prikazani prethodni rezultati
+            ///
 
-            List<User> lista = Snake.AllUsersData();
+            Records r = new Records();
+
+            List<User> lista = Snake.AllUsersData(); /// prikupljam listu User-a iz klase Snake
             if (lista.Count == 0)
             {
+                ///
+                /// Ukoliko jos uvek nema rezultata, igrac ce o tome biti obavesten
+                ///
                 MessageBox.Show("There are no records.", "Info",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                this.Show();
                 return;
             }
 
+            ///
+            /// Ukoliko ima rezultata, pozivam funkciju koja unosi rezultate u tabelu
+            /// i prikazujem formu sa rezultatima
+            ///
             r.PutResultsIntoDGV(lista);
             r.ShowDialog();
-            this.Show();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            string message="";
+            ///
+            /// Kada igrac pritisne button Exit, bice upitan da li
+            /// zaista zeli da napusti igru, i ukoliko pokusa da izadje u toku igre,
+            /// bice jos i obavesten da se rezultat nece sacuvati
+            ///
+            string message ="";
             if(playing) message= "Score won't be saved!"; 
             message += "Do you really want to exit the game?";
             string title = "Exit Game";
+
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Warning);
             //MessageBox.Show()
             if(result==DialogResult.No)
             {
+                ///
+                /// Ukoliko ipak ne zeli da napusti, nista se nece dogoditi
+                ///
                 return;
             }
-            Application.Exit();
+
+            Application.Exit(); /// Ukoliko zeli da napusti, aplikacija se gasi
         }
     }
 }
