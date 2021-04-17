@@ -13,6 +13,7 @@ namespace Zmijica
     public partial class Options : Form
     {
         bool playing;
+        public string name;
         public Options(bool playing)
         {
             InitializeComponent();
@@ -59,15 +60,26 @@ namespace Zmijica
                 MessageBox.Show("Name is not valid!");
                 return;
             }
+            name = tbName.Text;
             this.Hide();
         }
 
         private void btnResults_Click(object sender, EventArgs e)
         {
             Records r = new Records();
-            this.Visible = false ;
+            this.Hide();
+
+            List<User> lista = Snake.AllUsersData();
+            if (lista.Count == 0)
+            {
+                MessageBox.Show("There are no records.", "Info",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                this.Show();
+                return;
+            }
+
+            r.PutResultsIntoDGV(lista);
             r.ShowDialog();
-            this.Visible=true;
+            this.Show();
         }
 
         private void btnExit_Click(object sender, EventArgs e)

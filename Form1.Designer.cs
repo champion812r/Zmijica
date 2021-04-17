@@ -30,18 +30,6 @@ namespace Zmijica
         private void InitializeComponent()
         {
             this.gameGrid = new System.Windows.Forms.Panel();
-            this.btnFullGrid = new System.Windows.Forms.Button();
-            this.btnClearGrid = new System.Windows.Forms.Button();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.trackSpeed = new System.Windows.Forms.TrackBar();
-            this.tbIme = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.labelScore = new System.Windows.Forms.Label();
-            this.btnRecords = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // gameGrid
@@ -53,149 +41,24 @@ namespace Zmijica
             this.gameGrid.TabIndex = 0;
             this.gameGrid.Paint += new System.Windows.Forms.PaintEventHandler(this.gameGrid_Paint);
             // 
-            // btnFullGrid
-            // 
-            this.btnFullGrid.Location = new System.Drawing.Point(875, 352);
-            this.btnFullGrid.Name = "btnFullGrid";
-            this.btnFullGrid.Size = new System.Drawing.Size(136, 29);
-            this.btnFullGrid.TabIndex = 1;
-            this.btnFullGrid.Text = "Prikazi full grid";
-            this.btnFullGrid.UseVisualStyleBackColor = true;
-            this.btnFullGrid.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnClearGrid
-            // 
-            this.btnClearGrid.Location = new System.Drawing.Point(875, 387);
-            this.btnClearGrid.Name = "btnClearGrid";
-            this.btnClearGrid.Size = new System.Drawing.Size(136, 29);
-            this.btnClearGrid.TabIndex = 2;
-            this.btnClearGrid.Text = "Ocisti grid";
-            this.btnClearGrid.UseVisualStyleBackColor = true;
-            this.btnClearGrid.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // btnStart
-            // 
-            this.btnStart.Location = new System.Drawing.Point(875, 181);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(136, 50);
-            this.btnStart.TabIndex = 3;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(883, 419);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 20);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Simulacija brzine";
-            // 
-            // trackSpeed
-            // 
-            this.trackSpeed.Location = new System.Drawing.Point(875, 59);
-            this.trackSpeed.Name = "trackSpeed";
-            this.trackSpeed.Size = new System.Drawing.Size(130, 56);
-            this.trackSpeed.TabIndex = 5;
-            // 
-            // tbIme
-            // 
-            this.tbIme.Location = new System.Drawing.Point(875, 110);
-            this.tbIme.Name = "tbIme";
-            this.tbIme.Size = new System.Drawing.Size(136, 27);
-            this.tbIme.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(926, 140);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 20);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Ime";
-            // 
-            // btnStop
-            // 
-            this.btnStop.Location = new System.Drawing.Point(875, 237);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(136, 50);
-            this.btnStop.TabIndex = 8;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(875, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 20);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Score:";
-            // 
-            // labelScore
-            // 
-            this.labelScore.AutoSize = true;
-            this.labelScore.Location = new System.Drawing.Point(930, 21);
-            this.labelScore.Name = "labelScore";
-            this.labelScore.Size = new System.Drawing.Size(17, 20);
-            this.labelScore.TabIndex = 0;
-            this.labelScore.Text = "0";
-            // 
-            // btnRecords
-            // 
-            this.btnRecords.Location = new System.Drawing.Point(894, 473);
-            this.btnRecords.Name = "btnRecords";
-            this.btnRecords.Size = new System.Drawing.Size(94, 29);
-            this.btnRecords.TabIndex = 10;
-            this.btnRecords.Text = "Rezultati";
-            this.btnRecords.UseVisualStyleBackColor = true;
-            this.btnRecords.Click += new System.EventHandler(this.btnRecords_Click);
-            // 
             // SnakeGraphics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(840, 520);
-            this.Controls.Add(this.btnRecords);
-            this.Controls.Add(this.labelScore);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.btnStop);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.tbIme);
-            this.Controls.Add(this.trackSpeed);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.btnClearGrid);
-            this.Controls.Add(this.btnFullGrid);
             this.Controls.Add(this.gameGrid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "SnakeGraphics";
             this.Text = "Snake Game";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.SnakeGraphics_Paint);
-            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel gameGrid;
-        private System.Windows.Forms.Button btnFullGrid;
-        private System.Windows.Forms.Button btnClearGrid;
-        private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TrackBar trackSpeed;
-        private System.Windows.Forms.TextBox tbIme;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label labelScore;
-        private System.Windows.Forms.Button btnRecords;
     }
 }
 

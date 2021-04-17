@@ -17,8 +17,8 @@ namespace Zmijica
     }
     public class User
     {
-        public int maxScore { get; set; } //najveći postignuti rezultat
         public string username { get; set; } //koristnicko ime
+        public int maxScore { get; set; } //najveći postignuti rezultat
     }
     public class Snake
     {
@@ -29,7 +29,7 @@ namespace Zmijica
         StreamWriter sw;
         List<Point> teloZmije = new List<Point>();  //lista koordinata delova tela zmijice
         List<Point> hrana = new List<Point>();
-        static List<User> korisnici;
+        static List<User> korisnici= new List<User>();
         
         
         public Snake(int visinaMatrice, int sirinaMatrice, int x, int y, string username) //pocetna podesavanje 
@@ -95,6 +95,10 @@ namespace Zmijica
         {
             List<Point>[] SnakeAndFood = new List<Point>[2] { teloZmije, hrana };
             return SnakeAndFood;
+        }
+        public Point BeforeHead()
+        {
+            return teloZmije[teloZmije.Count - 2];
         }
 
         //vraca listu instrukcija u zavisnosti od smera kretanja zmijice
@@ -239,10 +243,10 @@ namespace Zmijica
         }
 
 
-        private void UpisivanjeListe()
+        public void UpisivanjeListe()
         {
             KrajIgrice();
-            sr.Close();
+            if(sr!=null) sr.Close();
             if (File.Exists("data.txt"))
                  File.Delete("data.txt");
             File.Create("data.txt").Close();

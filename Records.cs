@@ -16,10 +16,17 @@ namespace Zmijica
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterParent;
+
+            dgvResults.EditMode = DataGridViewEditMode.EditProgrammatically;
         }
-        /*public void PutResultsIntoDGV(List<...> lista)
+        public void PutResultsIntoDGV(List<User> lista)
         {
             dgvResults.DataSource = lista.ToList();
-        }*/
+
+            dgvResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvResults.RowHeadersVisible = false;
+            dgvResults.Columns[0].HeaderText = "Name";
+            dgvResults.Columns[1].HeaderText = "Max Score";
+        }
     }
 }
