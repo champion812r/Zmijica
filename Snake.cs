@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Zmijica
 {
@@ -13,14 +15,24 @@ namespace Zmijica
         public bool oboj;  // true = oboj, false = obrisi
         public bool telo;  // true = zmija, false = hrana
     }
+    public class User
+    {
+        public int maxScore { get; set; } //najveći postignuti rezultat
+        public string username { get; set; } //koristnicko ime
+    }
     public class Snake
     {
-        List<Point> teloZmije = new List<Point>();  //lista koordinata delova tela zmijice
-        int visinaMatrice, sirinaMatrice, x, y, velicina=3, foodmax=3;
-        List<Point> hrana = new List<Point>();
+        int visinaMatrice, sirinaMatrice, x, y, velicina=3, foodMax=3, currentScore;
         bool pokupljeno;
-
-        public Snake(int visinaMatrice, int sirinaMatrice, int x, int y) //pocetna podesavanje 
+        User currentUser;
+        StreamReader sr;
+        StreamWriter sw;
+        List<Point> teloZmije = new List<Point>();  //lista koordinata delova tela zmijice
+        List<Point> hrana = new List<Point>();
+        static List<User> korisnici;
+        
+        
+        public Snake(int visinaMatrice, int sirinaMatrice, int x, int y, string username) //pocetna podesavanje 
         {   
             //velicina matrice (grid-a)
             this.visinaMatrice = visinaMatrice; 
@@ -28,21 +40,72 @@ namespace Zmijica
             
             //pocetne koordinate glave
             this.x = x;
-            this.y = y; 
-            
-            //pravljenje zmije i hrane
-            NapraviNovuZmiju(velicina);
-        }
-        
+            this.y = y;
 
-        public List<Instrukcija> lista (int direction)  //vraca listi instrukcija u zavisnosti od smera kretanja zmijice
+            //novi korisnik
+            currentUser = new User();
+            //postavljanje imena
+            this.currentUser.username = username;
+            //currentUser.username = "blanffn";
+            currentScore = 0;
+            //pravljenje zmije
+            NapraviNovuZmiju(velicina);
+
+            // pravljenje liste korisnika
+            korisnici = new List<User>();
+
+            //ako vec postoji .txt file sa ovom listu podaci se preuzimaju iz nje
+            if (File.Exists("data.txt"))
+            {
+                sr = new StreamReader("data.txt");
+                User korisnik = new User();
+                while (sr.ReadLine() != null)
+                {
+                    string s = sr.ReadLine();
+                    korisnik.username = s.Split()[0];
+                    korisnik.maxScore = int.Parse(s.Split()[0]);
+                    if (korisnik.username == currentUser.username) currentUser=korisnik;
+                    korisnici.Add(korisnik);
+                }
+            }
+
+            
+        }
+
+        //vraca trenutni rezultat igrice
+        public int CurrentScore()
         {
-            List<Instrukcija> Lista = new List<Instrukcija>();
+            return currentScore;
+        }
+
+        //vraca podatke o trenutnom korisniku
+        public User CurrentUserData()
+        {
+            return currentUser;
+        }
+
+        //vraca listu korisnika
+        public static List<User> AllUsersData()
+        {
+            return korisnici;
+        }
+
+        //vraca niz lista pozicije delova zmijice i hrane
+        public List<Point>[] SnakeAndFoodData()
+        {
+            List<Point>[] SnakeAndFood = new List<Point>[2] { teloZmije, hrana };
+            return SnakeAndFood;
+        }
+
+        //vraca listu instrukcija u zavisnosti od smera kretanja zmijice
+        public List<Instrukcija> lista (int direction)  
+        {
+            List<Instrukcija> Lista = new List<Instrukcija>(); //pravi se nova lista instrukcija
             Point glava = new Point { X = teloZmije[0].X, Y = teloZmije[0].Y }; //trenutna lokacija glave zmijice
     
             if (direction==1) //ako ide gore
             {
-                glava.Y--;
+                glava.Y--; 
                 if (glava.Y < 0) glava.Y = visinaMatrice; //ako predje zid
                 if (glava==teloZmije[0]) glava.Y++;       //ako ide unazad
                 ZmijaUpdate(ref teloZmije, glava, ref Lista);  //menjanje pozicija u listi, dodavanje instrukcija
@@ -50,81 +113,107 @@ namespace Zmijica
             else if (direction == 2) //ako ide dole
             {
                 glava.Y++;
-                if (glava.Y > visinaMatrice) glava.Y = 0;
-                if (glava == teloZmije[0]) glava.Y--;
-                ZmijaUpdate(ref teloZmije, glava, ref Lista);
+                if (glava.Y > visinaMatrice) glava.Y = 0; //ako predje zid
+                if (glava == teloZmije[0]) glava.Y--; //ako ide unazad 
+                ZmijaUpdate(ref teloZmije, glava, ref Lista); //menjanje pozicija u listi, dodavanje instrukcija
             }
             else if (direction == 3) //ako ide levo
             {
                 glava.X--;
-                if (glava.X < 0) glava.X = sirinaMatrice;
-                if (glava == teloZmije[0]) glava.X++;
-                ZmijaUpdate(ref teloZmije, glava, ref Lista);
+                if (glava.X < 0) glava.X = sirinaMatrice; //ako predje zid
+                if (glava == teloZmije[0]) glava.X++; //ako ide unazad
+                ZmijaUpdate(ref teloZmije, glava, ref Lista); //menjanje pozicija u listi, dodavanje instrukcija
             }
             else if (direction == 4) //ako ide desno
             {
                 glava.X++;
-                if (glava.X > sirinaMatrice) glava.X = 0;
-                if (glava == teloZmije[0]) glava.X--;
-                ZmijaUpdate(ref teloZmije, glava, ref Lista);
+                if (glava.X > sirinaMatrice) glava.X = 0; //ako predje zid
+                if (glava == teloZmije[0]) glava.X--; //ako ide unazad
+                ZmijaUpdate(ref teloZmije, glava, ref Lista); //menjanje pozicija u listi, dodavanje instrukcija
             }
 
             return Lista;
         }
 
-        private void ZmijaUpdate(ref List<Point> teloZmije, Point glava, ref List<Instrukcija> Lista) //promene u listi i kreiranje instrukcija
+        //promene u listi zmijice i desavanja u zavisnosti od njene pozicije, kreiranje instrukcija
+        private void ZmijaUpdate(ref List<Point> teloZmije, Point glava, ref List<Instrukcija> Lista) 
         {
             Instrukcija instrukcija = new Instrukcija();
-            if (teloZmije.Contains(glava)) //da li se sudara 
+
+            //da li se sudara (sudara se ako je lokacija glave jednaka sa nekim delom tela zmijice)
+            if (teloZmije.Contains(glava)) 
             {
+                //kreiranje instrukcije
                 glava.X = -1; //nepostojeca lokacija kao znak za kraj igrice
                 instrukcija.xy = glava; 
-                Lista.Add(instrukcija);
-                NapraviNovuZmiju(velicina); //restart
+                Lista.Add(instrukcija); //dodaje se u listu instrukcija
+                KrajIgrice(); 
             }
+            //ako se ne sudara
             else
             {
                 //glava se uvek dodaje
                 teloZmije.Insert(0, glava);
+
+                //pravi se instrukcija za bojenje lokacije na kojoj je glava
                 instrukcija.xy = glava;
                 instrukcija.oboj = true;
                 instrukcija.telo = true;
-                Lista.Add(instrukcija);
+                Lista.Add(instrukcija); //dodaje se u listu instrukcija
 
-                for (int i = 0; i < hrana.Count; i++) //provera da li glava ima isti lokaciju kao neki clan iz liste hrana
+                //provera da li glava ima isti lokaciju kao neki clan iz liste hrana
+                for (int i = 0; i < hrana.Count; i++) 
                 {
                     if (hrana[i] == glava) //ako postoji takav clan
                     {
-                        pokupljeno = true;
-                        hrana.RemoveAt(i); //uklanja se iz liste
+                        currentScore++; //score se povecava
+                        pokupljeno = true; 
+                        hrana.RemoveAt(i); //hrana se uklanja iz liste
                         break;
                     }
                     else pokupljeno = false; //ako ne postoji
                 }
 
-                if (!pokupljeno || hrana.Count==0) //rep se brise kada se ne pokupi hrana, ili ako nema hrane, a bool je ostao true
+                //rep se brise kada se ne pokupi hrana, ili ako nema hrane, a bool je ostao true
+                if (!pokupljeno || hrana.Count==0) 
                 {
-                    //brisanje repa 
-                    instrukcija.xy = teloZmije[teloZmije.Count - 1];
+                    //pravljenje istrukcije za brisanje repa 
+                    instrukcija.xy = teloZmije[teloZmije.Count - 1]; //rep je uvek poslednji clan liste
                     instrukcija.oboj = false;
                     instrukcija.telo = true;
-                    Lista.Add(instrukcija);
-                    teloZmije.RemoveAt(teloZmije.Count - 1);    
+                    Lista.Add(instrukcija); //dodaje se u listu instrukcija
+                    teloZmije.RemoveAt(teloZmije.Count - 1);  //uklanja se iz liste delova tela zmijice
                 }
                 
                 //nasumicno generisanje hrane po frame-u
                 Random r = new Random();
-                if (r.Next(0, 10) == 1)
-                    NapraviNovuHranu(ref hrana, r.Next(1, foodmax + 1), teloZmije, ref Lista);
+                if (r.Next(0, 5) == 1)
+                    NapraviNovuHranu(ref hrana, r.Next(1, foodMax + 1), teloZmije, ref Lista);
             }
         }
 
-        private void NapraviNovuHranu(ref List<Point> hrana, int foodmax, List<Point> zmija, ref List<Instrukcija> Lista)
+        //funkcija koja se poziva na kraju igrice (kada se izgubi, pauzira i zapocne nova igra ili izadje iz igrice)
+        public void KrajIgrice()
+        {
+            //ako je korisnik nov 
+            if (currentUser.maxScore == 0)
+            {
+                currentUser.maxScore = currentScore;
+                korisnici.Add(currentUser);
+            }
+            else if (currentScore > currentUser.maxScore)
+            {
+                currentUser.maxScore = currentScore;
+            }
+            NapraviNovuZmiju(velicina); 
+        }
+
+        private void NapraviNovuHranu(ref List<Point> hrana, int foodMax, List<Point> zmija, ref List<Instrukcija> Lista)
         {
             Random r = new Random();
             Point food = new Point { X = r.Next(0, sirinaMatrice + 1), Y = r.Next(0, visinaMatrice + 1) }; 
             Instrukcija instrukcija = new Instrukcija();
-            for (int i = hrana.Count; i < foodmax; i++)
+            for (int i = hrana.Count; i < foodMax; i++)
             {   
                 while(hrana.Contains(food) || zmija.Contains(food)) //trazi se random lokacija na kojoj nema ni zmije ni hrane
                 food = new Point { X = r.Next(0, sirinaMatrice + 1), Y = r.Next(0, visinaMatrice + 1) };
@@ -150,7 +239,18 @@ namespace Zmijica
         }
 
 
-
+        private void UpisivanjeListe()
+        {
+            KrajIgrice();
+            sr.Close();
+            if (File.Exists("data.txt"))
+                 File.Delete("data.txt");
+            File.Create("data.txt").Close();
+            sw = new StreamWriter("data.txt");
+            for (int i = 0; i < korisnici.Count; i++)
+                sw.WriteLine(korisnici[i].username + " " + korisnici[i].maxScore);
+            sw.Close();
+        }
     }
 
 }
