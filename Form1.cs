@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Zmijica
 {
@@ -20,6 +21,7 @@ namespace Zmijica
         /// </summary>
         public int speed;
         public string name;
+        public bool controls;
     }
     public partial class SnakeGraphics : Form
     {
@@ -44,7 +46,7 @@ namespace Zmijica
         int glavaX = 6, glavaY = 6; /// startna pozicija zmije
         int gridWidth, gridHeight; /// dimenzije GameGrid-a
         Point lastHeadPosition = new(-1,-1);
-        Keys[] controlKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right}; /// dugmici koji se koriste za upravljanje zmijom
+        Keys[] controlKeys; /// dugmici koji se koriste za upravljanje zmijom
         Timer timer= new(); /// tajmer koji ce otkucavati za prikaz novih frejmova
         int interval; /// interval nakon kojeg ce tajmer otkucavati - brzina kretanja zmije
 
@@ -68,7 +70,6 @@ namespace Zmijica
 
             this.Show(); //rucno prikazujem osnovnu formu da se ne bi Options forma prikazala prva
             MessageBox.Show("Control snake using arrow keys. Pause game by pressing 'P'", "Welcome to game Zmijica!",MessageBoxButtons.OK,MessageBoxIcon.Information);
-            snake = new(0,0,0,0,"");
             StartNewGame();
         }
 
@@ -195,7 +196,13 @@ namespace Zmijica
                 {
                     /// ukoliko treba obrisati nesto,
                     /// bilo da je to rep zmije ili hrana
-                    Erase(x, y);
+                    if(i.telo) Erase(x, y);
+
+                    if(i.telo==false)
+                    {
+                        timer.Interval -= (int)Math.Ceiling((double)timer.Interval / 100);
+                        Debug.WriteLine(timer.Interval);
+                    }
                 }
             }
             return true;
@@ -329,22 +336,22 @@ namespace Zmijica
                 bool directionChanged = false; /// indikator koji pokazuje da li je doslo do promene smera kretanja zmije
                 /// ukoliko je unesen smer isti kao i trenutni, to se ne belezi kao promena
                 /// ukoliko je unesen smer suprotan trenutnom, takodje se ne belezi kao promena
-                if (keyData==Keys.Down && direction!=1 && direction!=2)
+                if (keyData==controlKeys[1] && direction!=1 && direction!=2)
                 {
                     direction = 2;
                     directionChanged = true;
                 }
-                else if (keyData == Keys.Up && direction != 2 && direction != 1)
+                else if (keyData == controlKeys[0] && direction != 2 && direction != 1)
                 {
                     direction = 1;
                     directionChanged = true;
                 }
-                else if (keyData == Keys.Left && direction != 4 && direction != 3)
+                else if (keyData == controlKeys[2] && direction != 4 && direction != 3)
                 {
                     direction = 3;
                     directionChanged = true;
                 }
-                else if (keyData == Keys.Right && direction != 3 && direction != 4)
+                else if (keyData == controlKeys[3] && direction != 3 && direction != 4)
                 {
                     direction = 4;
                     directionChanged = true;
@@ -376,6 +383,9 @@ namespace Zmijica
             o.ShowDialog(); /// prikazujemo prozor sa opcijama kako bi igrac uneo ime i brzinu
 
             GameSettings gs = o.getSettings(); /// nakon sto se prozor sa Opcijama zatvorio, pokupicemo unete vrednosti
+
+            if(gs.controls) controlKeys = new Keys[] { Keys.Up, Keys.Down, Keys.Left, Keys.Right };
+            else controlKeys = new Keys[] { Keys.W, Keys.S, Keys.A, Keys.D };
 
             resetSnake(); /// postavljamo zmiju na pocetne vrednosti
             interval = speedMin - gs.speed * speedMax; /// racunamo interval na osnovu odabrane vrednosti na trackSpeed-u

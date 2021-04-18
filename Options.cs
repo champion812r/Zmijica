@@ -19,6 +19,8 @@ namespace Zmijica
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterParent; ///pozicioniramo Options prozor centralno u odnosu na osnovnu formu
 
+            rbArrows.Checked = true;
+
             this.playing = playing;
             if(playing)
             {
@@ -30,6 +32,7 @@ namespace Zmijica
                 btnNewGame.Enabled = false;
                 tbName.Enabled = false;
                 trackSpeed.Enabled = false;
+                rbArrows.Enabled = rbWASD.Enabled = false;
             }
             else
             {
@@ -49,6 +52,7 @@ namespace Zmijica
             GameSettings gs = new GameSettings();
             gs.name = tbName.Text;
             gs.speed = trackSpeed.Value;
+            gs.controls = rbArrows.Checked;
             return gs;
         }
 
@@ -103,7 +107,9 @@ namespace Zmijica
 
             Records r = new Records();
 
-            List<User> lista = Snake.AllUsersData(); /// prikupljam listu User-a iz klase Snake
+            //List<User> lista = Snake.AllUsersData(); /// prikupljam listu User-a iz klase Snake
+            Snake.UcitavanjePodataka();
+            List<User> lista = Snake.AllUsersData();
             if (lista.Count == 0)
             {
                 ///
@@ -145,6 +151,16 @@ namespace Zmijica
             }
 
             Application.Exit(); /// Ukoliko zeli da napusti, aplikacija se gasi
+        }
+
+        private void tbName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

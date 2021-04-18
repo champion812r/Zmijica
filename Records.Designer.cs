@@ -46,7 +46,7 @@ namespace Zmijica
             this.dgvResults.Name = "dgvResults";
             this.dgvResults.RowHeadersWidth = 51;
             this.dgvResults.RowTemplate.Height = 29;
-            this.dgvResults.Size = new System.Drawing.Size(469, 294);
+            this.dgvResults.Size = new System.Drawing.Size(469, 448);
             this.dgvResults.TabIndex = 0;
             // 
             // Records
