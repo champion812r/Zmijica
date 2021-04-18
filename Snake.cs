@@ -111,7 +111,7 @@ namespace Zmijica
         }
 
         //vraca listu instrukcija u zavisnosti od smera kretanja zmijice
-        public List<Instrukcija> lista (int direction)  
+        public List<Instrukcija> lista (int direction, int interval)  
         {
             List<Instrukcija> Lista = new List<Instrukcija>(); //pravi se nova lista instrukcija
             Point glava = new Point { X = teloZmije[0].X, Y = teloZmije[0].Y }; //trenutna lokacija glave zmijice
@@ -121,35 +121,35 @@ namespace Zmijica
                 glava.Y--; 
                 if (glava.Y < 0) glava.Y = visinaMatrice; //ako predje zid
                 if (glava==teloZmije[0]) glava.Y++;       //ako ide unazad
-                ZmijaUpdate(ref teloZmije, glava, ref Lista);  //menjanje pozicija u listi, dodavanje instrukcija
+                ZmijaUpdate(ref teloZmije, glava, ref Lista, interval);  //menjanje pozicija u listi, dodavanje instrukcija
             }
             else if (direction == 2) //ako ide dole
             {
                 glava.Y++;
                 if (glava.Y > visinaMatrice) glava.Y = 0; //ako predje zid
                 if (glava == teloZmije[0]) glava.Y--; //ako ide unazad 
-                ZmijaUpdate(ref teloZmije, glava, ref Lista); //menjanje pozicija u listi, dodavanje instrukcija
+                ZmijaUpdate(ref teloZmije, glava, ref Lista, interval); //menjanje pozicija u listi, dodavanje instrukcija
             }
             else if (direction == 3) //ako ide levo
             {
                 glava.X--;
                 if (glava.X < 0) glava.X = sirinaMatrice; //ako predje zid
                 if (glava == teloZmije[0]) glava.X++; //ako ide unazad
-                ZmijaUpdate(ref teloZmije, glava, ref Lista); //menjanje pozicija u listi, dodavanje instrukcija
+                ZmijaUpdate(ref teloZmije, glava, ref Lista, interval); //menjanje pozicija u listi, dodavanje instrukcija
             }
             else if (direction == 4) //ako ide desno
             {
                 glava.X++;
                 if (glava.X > sirinaMatrice) glava.X = 0; //ako predje zid
                 if (glava == teloZmije[0]) glava.X--; //ako ide unazad
-                ZmijaUpdate(ref teloZmije, glava, ref Lista); //menjanje pozicija u listi, dodavanje instrukcija
+                ZmijaUpdate(ref teloZmije, glava, ref Lista, interval); //menjanje pozicija u listi, dodavanje instrukcija
             }
 
             return Lista;
         }
 
         //promene u listi zmijice i desavanja u zavisnosti od njene pozicije, kreiranje instrukcija
-        private void ZmijaUpdate(ref List<Point> teloZmije, Point glava, ref List<Instrukcija> Lista) 
+        private void ZmijaUpdate(ref List<Point> teloZmije, Point glava, ref List<Instrukcija> Lista, int interval) 
         {
             Instrukcija instrukcija = new Instrukcija();
 
@@ -179,7 +179,7 @@ namespace Zmijica
                 {
                     if (hrana[i] == glava) //ako postoji takav clan
                     {
-                        currentScore++; //score se povecava
+                        currentScore += 5 * (int) Math.Pow(2, (400 - interval) / 50); //score se povecava
                         pokupljeno = true;
                         instrukcija.xy = hrana[i];
                         instrukcija.oboj = false;
@@ -261,7 +261,6 @@ namespace Zmijica
 
         public void UpisivanjeListe()
         {
-            if(sr!=null) sr.Close();
             if (!File.Exists("data.txt"))
                 File.Create("data.txt").Close();
             else
