@@ -179,7 +179,7 @@ namespace Zmijica
                 {
                     if (hrana[i] == glava) //ako postoji takav clan
                     {
-                        currentScore += 5 * (int) Math.Pow(2, (400 - interval) / 50); //score se povecava
+                        currentScore += (int) Math.Pow(2, (400 - interval) / 50); //score se povecava
                         pokupljeno = true;
                         instrukcija.xy = hrana[i];
                         instrukcija.oboj = false;
