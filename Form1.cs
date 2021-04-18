@@ -137,14 +137,16 @@ namespace Zmijica
             /// Obavestava se igrac da je igra zavrsena i upitan je
             /// da li zeli da sacuva rezultat
             ///
+            
             int score =snake.CurrentScore(); 
             string message = "Game Over :((\nDo you want to save score: "+score.ToString();
             string title = "Game Over";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Question);
-
+            
             if (result == DialogResult.Yes) snake.UpisivanjeListe(); /// ukoliko zeli, vrsi se upisivanje rezultata
-
+            
+            snake.UpisivanjeListe();
             ResetGridBackground(); /// stanje GameGrid-a se vraca na pocetno
             StartNewGame(); /// zapocinje se odmah nova igra
         }

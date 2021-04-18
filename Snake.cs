@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Zmijica
 {
@@ -44,27 +45,32 @@ namespace Zmijica
 
             //novi korisnik
             currentUser = new User();
+
             //postavljanje imena
+            if(currentUser.username != username)
             this.currentUser.username = username;
-            //currentUser.username = "blanffn";
+
             currentScore = 0;
             //pravljenje zmije
             NapraviNovuZmiju(velicina);
 
-            // pravljenje liste korisnika
-            korisnici = new List<User>();
-
-            //ako vec postoji .txt file sa ovom listu podaci se preuzimaju iz nje
-            if (File.Exists("data.txt"))
+            //ako vec postoji .txt file,a ne postoji lista korisnika (igra se prvi put) podaci se preuzimaju iz njega
+            if (File.Exists("data.txt") && korisnici.Count==0)
             {
                 sr = new StreamReader("data.txt");
-                User korisnik = new User();
-                while (sr.ReadLine() != null)
+
+                int i = 0;
+                while (sr.Peek() >= 0)
                 {
+
+                    User korisnik = new User();
+                    Debug.WriteLine(" ovo je = " + i++);
                     string s = sr.ReadLine();
-                    korisnik.username = s.Split()[0];
-                    korisnik.maxScore = int.Parse(s.Split()[0]);
-                    if (korisnik.username == currentUser.username) currentUser=korisnik;
+                    string[] da = s.Split(" § ");
+                    korisnik.username = da[0];
+                    korisnik.maxScore = int.Parse(da[1]);
+                    if (korisnik.username == currentUser.username) 
+                        currentUser=korisnik;
                     korisnici.Add(korisnik);
                 }
             }
@@ -86,8 +92,10 @@ namespace Zmijica
 
         //vraca listu korisnika
         public static List<User> AllUsersData()
-        {
-            return korisnici;
+        {       
+            List<User> AllUsers = korisnici.OrderBy(x => x.maxScore).ToList();
+            AllUsers.Reverse();
+            return AllUsers;
         }
 
         //vraca niz lista pozicije delova zmijice i hrane
@@ -199,16 +207,17 @@ namespace Zmijica
         //funkcija koja se poziva na kraju igrice (kada se izgubi, pauzira i zapocne nova igra ili izadje iz igrice)
         public void KrajIgrice()
         {
-            //ako je korisnik nov 
-            if (currentUser.maxScore == 0)
+            if (currentUser.maxScore < currentScore)
             {
                 currentUser.maxScore = currentScore;
-                korisnici.Add(currentUser);
+                //ako u listi korisnika postoji takav korisnik da ima isto ime kao trenutni korisnik
+                if (korisnici.Exists(x => x.username == currentUser.username))
+                    korisnici[korisnici.FindIndex(x => x.username == currentUser.username)] = currentUser; //premomeni score
+                else //inace
+                    korisnici.Add(currentUser);
             }
-            else if (currentScore > currentUser.maxScore)
-            {
-                currentUser.maxScore = currentScore;
-            }
+                
+
             NapraviNovuZmiju(velicina); 
         }
 
@@ -247,12 +256,15 @@ namespace Zmijica
         {
             KrajIgrice();
             if(sr!=null) sr.Close();
-            if (File.Exists("data.txt"))
-                 File.Delete("data.txt");
-            File.Create("data.txt").Close();
+            if (!File.Exists("data.txt"))
+                File.Create("data.txt").Close();
+            else
+                File.WriteAllText("data.txt", String.Empty);
+            
             sw = new StreamWriter("data.txt");
+            Debug.WriteLine(" ovo je = " + korisnici.Count);
             for (int i = 0; i < korisnici.Count; i++)
-                sw.WriteLine(korisnici[i].username + " " + korisnici[i].maxScore);
+                sw.WriteLine(korisnici[i].username + " § " + korisnici[i].maxScore);
             sw.Close();
         }
     }
