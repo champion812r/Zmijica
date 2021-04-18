@@ -108,7 +108,7 @@ namespace Zmijica
             Records r = new Records();
 
             //List<User> lista = Snake.AllUsersData(); /// prikupljam listu User-a iz klase Snake
-            Snake.UcitavanjePodataka();
+            //Snake.UcitavanjePodataka();
             List<User> lista = Snake.AllUsersData();
             if (lista.Count == 0)
             {

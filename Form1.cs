@@ -70,6 +70,7 @@ namespace Zmijica
 
             this.Show(); //rucno prikazujem osnovnu formu da se ne bi Options forma prikazala prva
             MessageBox.Show("Control snake using arrow keys. Pause game by pressing 'P'", "Welcome to game Zmijica!",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            Snake.UcitavanjePodataka();
             StartNewGame();
         }
 
