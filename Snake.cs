@@ -80,6 +80,25 @@ namespace Zmijica
             
         }
 
+        public static void UcitavanjePodataka()
+        {
+            if (File.Exists("data.txt") && korisnici.Count == 0)
+            {
+                StreamReader sr = new StreamReader("data.txt");
+
+                while (sr.Peek() >= 0)
+                {
+
+                    User korisnik = new User();
+                    string s = sr.ReadLine();
+                    string[] da = s.Split(" § ");
+                    korisnik.username = da[0];
+                    korisnik.maxScore = int.Parse(da[1]);
+                    korisnici.Add(korisnik);
+                }
+            }
+        }
+
         //vraca trenutni rezultat igrice
         public int CurrentScore()
         {
@@ -177,7 +196,11 @@ namespace Zmijica
                     if (hrana[i] == glava) //ako postoji takav clan
                     {
                         currentScore++; //score se povecava
-                        pokupljeno = true; 
+                        pokupljeno = true;
+                        instrukcija.xy = hrana[i];
+                        instrukcija.oboj = false;
+                        instrukcija.telo = false;
+                        Lista.Add(instrukcija);
                         hrana.RemoveAt(i); //hrana se uklanja iz liste
                         hranaZvuk.Play();
                         break;
