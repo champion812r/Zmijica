@@ -56,28 +56,10 @@ namespace Zmijica
             //pravljenje zmije
             NapraviNovuZmiju(velicina);
 
-            //ako vec postoji .txt file,a ne postoji lista korisnika (igra se prvi put) podaci se preuzimaju iz njega
-            if (File.Exists("data.txt") && korisnici.Count==0)
-            {
-                sr = new StreamReader("data.txt");
-
-                int i = 0;
-                while (sr.Peek() >= 0)
-                {
-
-                    User korisnik = new User();
-                    Debug.WriteLine(" ovo je = " + i++);
-                    string s = sr.ReadLine();
-                    string[] da = s.Split(" § ");
-                    korisnik.username = da[0];
-                    korisnik.maxScore = int.Parse(da[1]);
-                    if (korisnik.username == currentUser.username) 
-                        currentUser=korisnik;
-                    korisnici.Add(korisnik);
-                }
-            }
-
-            
+            for (int i = 0; i < korisnici.Count; i++)
+                if(korisnici.Exists(x => x.username == currentUser.username))
+                    currentUser = korisnici[korisnici.FindIndex(x => x.username == currentUser.username)];
+           
         }
 
         public static void UcitavanjePodataka()
