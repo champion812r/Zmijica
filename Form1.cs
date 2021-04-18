@@ -160,7 +160,7 @@ namespace Zmijica
 
             label1.Text = "Score: " + snake.CurrentScore().ToString();
 
-            List<Instrukcija> instrukckije = snake.lista(direction); /// saljemo pravac kretanja klasi Snake i dobijamo natrag instrukcije
+            List<Instrukcija> instrukckije = snake.lista(direction,timer.Interval); /// saljemo pravac kretanja klasi Snake i dobijamo natrag instrukcije
             foreach(Instrukcija i in instrukckije)
             {
                 int X = i.xy.X, Y = i.xy.Y;
