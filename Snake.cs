@@ -78,7 +78,9 @@ namespace Zmijica
                     korisnik.maxScore = int.Parse(da[1]);
                     korisnici.Add(korisnik);
                 }
+                sr.Close();
             }
+           
         }
 
         //vraca trenutni rezultat igrice
