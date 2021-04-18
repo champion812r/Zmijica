@@ -33,8 +33,7 @@ namespace Zmijica
         SolidBrush gridCellOne = new SolidBrush(Color.FromArgb(72, 85, 107));
         SolidBrush gridCellTwo = new SolidBrush(Color.FromArgb(87, 107, 121));
         SolidBrush snakeEye = new SolidBrush(Color.Black);
-        Pen snakeBodyBorderPen = new Pen(Color.Black);
-        Graphics g,f;
+        Graphics g;
 
         Snake snake;
         Options o;
@@ -49,17 +48,17 @@ namespace Zmijica
         Timer timer= new Timer(); /// tajmer koji ce otkucavati za prikaz novih frejmova
         int interval; /// interval nakon kojeg ce tajmer otkucavati - brzina kretanja zmije
 
-        bool playing = false;///oznacava da li je u toku igra
+        bool playing = false; ///oznacava da li je u toku igra
 
-        int speedMin = 500, speedMax = 100;///minimalna i maximalna vrednost intervala, izrazeno u milisekundama
+        int speedMin = 500, speedMax = 100; ///minimalna i maximalna vrednost intervala, izrazeno u milisekundama
 
         public SnakeGraphics()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;///pozicioniranje forme na centar ekrana
+            this.StartPosition = FormStartPosition.CenterScreen; ///pozicioniranje forme na centar ekrana
 
             this.Enabled = false;
-            g = gameGrid.CreateGraphics(); //pomocu 'g' se iscrtavaju objekti po GameGrid-u
+            g = gameGrid.CreateGraphics(); /// pomocu 'g' se iscrtavaju objekti po GameGrid-u
             
             gridWidth = gameGrid.Width;
             gridHeight = gameGrid.Height;
@@ -98,7 +97,7 @@ namespace Zmijica
             /// </summary>
             direction = 4;
             lastHeadPosition = new Point(-1, -1);
-            snake = new Snake(gridHeight / snakeBodySize - 1, gridWidth / snakeBodySize - 1, glavaX, glavaY,o.name);///pravim novu zmiju i saljem potrebne podatke
+            snake = new Snake(gridHeight / snakeBodySize -1, gridWidth / snakeBodySize -1, glavaX, glavaY,o.name); ///pravim novu zmiju i saljem potrebne podatke
         }
 
         void launchTimer()
@@ -137,16 +136,14 @@ namespace Zmijica
             /// Obavestava se igrac da je igra zavrsena i upitan je
             /// da li zeli da sacuva rezultat
             ///
-            
             int score =snake.CurrentScore(); 
-            string message = "Game Over :((\nDo you want to save score: "+score.ToString();
+            string message = "Game Over :(( \nScore: "+score.ToString();
             string title = "Game Over";
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Question);
-            
-            if (result == DialogResult.Yes) snake.UpisivanjeListe(); /// ukoliko zeli, vrsi se upisivanje rezultata
-            
-            snake.UpisivanjeListe();
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
+
+            snake.UpisivanjeListe(); /// ukoliko zeli, vrsi se upisivanje rezultata
+
             ResetGridBackground(); /// stanje GameGrid-a se vraca na pocetno
             StartNewGame(); /// zapocinje se odmah nova igra
         }
