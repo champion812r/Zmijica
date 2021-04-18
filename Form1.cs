@@ -69,7 +69,7 @@ namespace Zmijica
             eyeDist = snakeBodySize / 5;
 
             this.Show(); //rucno prikazujem osnovnu formu da se ne bi Options forma prikazala prva
-            MessageBox.Show("Control snake using arrow keys. Pause game by pressing 'P'", "Welcome to game Zmijica!",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("Pause the game by pressing 'P'\nBrought to you by Kristina and Dimitrije <3", "Welcome to game Zmija Tankosava!",MessageBoxButtons.OK,MessageBoxIcon.Information);
             Snake.UcitavanjePodataka();
             StartNewGame();
         }

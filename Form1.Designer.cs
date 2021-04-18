@@ -29,6 +29,7 @@ namespace Zmijica
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SnakeGraphics));
             this.gameGrid = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.gameGrid.SuspendLayout();
@@ -62,9 +63,10 @@ namespace Zmijica
             this.ClientSize = new System.Drawing.Size(840, 520);
             this.Controls.Add(this.gameGrid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SnakeGraphics";
-            this.Text = "Snake Game";
+            this.Text = "Zmija Tankosava";
             this.gameGrid.ResumeLayout(false);
             this.gameGrid.PerformLayout();
             this.ResumeLayout(false);
