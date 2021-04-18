@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Media;
 
 namespace Zmijica
 {
@@ -31,8 +32,9 @@ namespace Zmijica
         List<Point> teloZmije = new List<Point>();  //lista koordinata delova tela zmijice
         List<Point> hrana = new List<Point>();
         static List<User> korisnici= new List<User>();
-        
-        
+        SoundPlayer hranaZvuk = new SoundPlayer("bite_effect.wav");
+        SoundPlayer krajIgreZvuk = new SoundPlayer("game_sound_retro_tone_fail.wav");
+
         public Snake(int visinaMatrice, int sirinaMatrice, int x, int y, string username) //pocetna podesavanje 
         {   
             //velicina matrice (grid-a)
@@ -103,10 +105,6 @@ namespace Zmijica
         {
             List<Point>[] SnakeAndFood = new List<Point>[2] { teloZmije, hrana };
             return SnakeAndFood;
-        }
-        public Point BeforeHead()
-        {
-            return teloZmije[teloZmije.Count - 2];
         }
 
         //vraca listu instrukcija u zavisnosti od smera kretanja zmijice
@@ -181,6 +179,7 @@ namespace Zmijica
                         currentScore++; //score se povecava
                         pokupljeno = true; 
                         hrana.RemoveAt(i); //hrana se uklanja iz liste
+                        hranaZvuk.Play();
                         break;
                     }
                     else pokupljeno = false; //ako ne postoji
@@ -216,8 +215,8 @@ namespace Zmijica
                 else //inace
                     korisnici.Add(currentUser);
             }
-                
 
+            krajIgreZvuk.Play();
             NapraviNovuZmiju(velicina); 
         }
 
