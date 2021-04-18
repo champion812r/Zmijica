@@ -28,11 +28,11 @@ namespace Zmijica
         /// definisanje boja za: telo zmije, hranu i dve vrste polja GameGrid-a
         /// 
         /// </summary>
-        SolidBrush snakeBodyBrush = new SolidBrush(Color.FromArgb(164, 254, 99));
-        SolidBrush foodBrush = new SolidBrush(Color.FromArgb(255, 153, 0));
-        SolidBrush gridCellOne = new SolidBrush(Color.FromArgb(72, 85, 107));
-        SolidBrush gridCellTwo = new SolidBrush(Color.FromArgb(87, 107, 121));
-        SolidBrush snakeEye = new SolidBrush(Color.Black);
+        SolidBrush snakeBodyBrush = new(Color.FromArgb(164, 254, 99));
+        SolidBrush foodBrush = new(Color.FromArgb(255, 153, 0));
+        SolidBrush gridCellOne = new(Color.FromArgb(72, 85, 107));
+        SolidBrush gridCellTwo = new(Color.FromArgb(87, 107, 121));
+        SolidBrush snakeEye = new(Color.Black);
         Graphics g;
 
         Snake snake;
@@ -43,9 +43,9 @@ namespace Zmijica
         int direction = 4; /// smer kretanja zmije: {1 2 3 4}={gore, dole, levo, desno}
         int glavaX = 6, glavaY = 6; /// startna pozicija zmije
         int gridWidth, gridHeight; /// dimenzije GameGrid-a
-        Point lastHeadPosition = new Point(-1,-1);
+        Point lastHeadPosition = new(-1,-1);
         Keys[] controlKeys = new Keys[] { Keys.Down, Keys.Up, Keys.Left, Keys.Right}; /// dugmici koji se koriste za upravljanje zmijom
-        Timer timer= new Timer(); /// tajmer koji ce otkucavati za prikaz novih frejmova
+        Timer timer= new(); /// tajmer koji ce otkucavati za prikaz novih frejmova
         int interval; /// interval nakon kojeg ce tajmer otkucavati - brzina kretanja zmije
 
         bool playing = false; ///oznacava da li je u toku igra
@@ -68,6 +68,7 @@ namespace Zmijica
 
             this.Show(); //rucno prikazujem osnovnu formu da se ne bi Options forma prikazala prva
             MessageBox.Show("Control snake using arrow keys. Pause game by pressing 'P'", "Welcome to game Zmijica!",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            snake = new(0,0,0,0,"");
             StartNewGame();
         }
 
@@ -140,9 +141,9 @@ namespace Zmijica
             string message = "Game Over :(( \nScore: "+score.ToString();
             string title = "Game Over";
             MessageBoxButtons buttons = MessageBoxButtons.OK;
-            MessageBox.Show(message, title, buttons, MessageBoxIcon.Exclamation);
+            MessageBox.Show(message, title, buttons, MessageBoxIcon.Information);
 
-            snake.UpisivanjeListe(); /// ukoliko zeli, vrsi se upisivanje rezultata
+            //snake.UpisivanjeListe(); /// ukoliko zeli, vrsi se upisivanje rezultata
 
             ResetGridBackground(); /// stanje GameGrid-a se vraca na pocetno
             StartNewGame(); /// zapocinje se odmah nova igra
@@ -230,6 +231,13 @@ namespace Zmijica
             ///
             g.FillRectangle(snakeBodyBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
         }
+        void DrawFood(int x, int y)
+        {
+            ///
+            /// Funkcija koja iscrtava hranu
+            ///
+            g.FillEllipse(foodBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
+        }
         void DrawHead(int x, int y)
         {
             ///
@@ -249,6 +257,10 @@ namespace Zmijica
                 ///
                 DrawBody(lastHeadPosition.X,lastHeadPosition.Y);
             }
+
+            ///
+            /// U nastavku crtamo oči zmije
+            ///
 
             int x1, x2, y1, y2; /// koordinate dva kruga koji predstavljaju oci zmije
             
@@ -284,13 +296,6 @@ namespace Zmijica
 
             lastHeadPosition = new Point(x, y); /// belezimo poslednju poziciju glave
 
-        }
-        void DrawFood(int x, int y)
-        {
-            ///
-            /// Funkcija koja iscrtava hranu
-            ///
-            g.FillEllipse(foodBrush, new Rectangle(x, y, snakeBodySize, snakeBodySize));
         }
 
         void Pause()
