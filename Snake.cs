@@ -157,7 +157,7 @@ namespace Zmijica
                 glava.X = -1; //nepostojeca lokacija kao znak za kraj igrice
                 instrukcija.xy = glava; 
                 Lista.Add(instrukcija); //dodaje se u listu instrukcija
-                KrajIgrice(); 
+                KrajIgrice();
             }
             //ako se ne sudara
             else
@@ -217,7 +217,8 @@ namespace Zmijica
             }
 
             krajIgreZvuk.Play();
-            NapraviNovuZmiju(velicina); 
+            NapraviNovuZmiju(velicina);
+            UpisivanjeListe();
         }
 
         private void NapraviNovuHranu(ref List<Point> hrana, int foodMax, List<Point> zmija, ref List<Instrukcija> Lista)
@@ -253,7 +254,6 @@ namespace Zmijica
 
         public void UpisivanjeListe()
         {
-            KrajIgrice();
             if(sr!=null) sr.Close();
             if (!File.Exists("data.txt"))
                 File.Create("data.txt").Close();
